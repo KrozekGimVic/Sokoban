@@ -57,9 +57,13 @@ class Sokoban:
         # Ali je uporabnik zadel kocko? Če ja, jo premaknimo
         if tuple(self.igralec) in self.kocke:
             x, y = self.igralec
-            st_kocke = self.kocke.index((x, y))
-            del self.kocke[st_kocke]
-            self.kocke.append((x+x-prejx, y+y-prejy))
+            novx, novy = x+x-prejx, y+y-prejy
+            if (novx, novy) in self.zid or (novx, novy) in self.kocke:
+                self.igralec = [prejx, prejy]
+            else:
+                st_kocke = self.kocke.index((x, y))
+                del self.kocke[st_kocke]
+                self.kocke.append((novx, novy))
 
         # Ko smo vse popravili ponovno narišimo level
         self.narisi_level()
