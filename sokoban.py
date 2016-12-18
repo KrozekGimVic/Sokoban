@@ -35,6 +35,19 @@ class Sokoban:
 
     def tipka(self, event):
         """ Funkcija, ki skrbi pravilno delovanje tipk """
+        # Najprej preverimo ali si končal prejšnji level
+        zmaga = True
+        for kocka in self.kocke:
+            # Vse kocke morajo biti na cilju
+            if kocka not in self.cilj:
+                zmaga = False
+                break
+        # Če smo zmagali, preberimo drugi level in ga narišemo
+        if zmaga:
+            self.preberi_level("lvl2.txt")
+            self.narisi_level()
+            # Potem ignoriramo pritisk tipke
+            return
 
         # Zapomnimo si uporabnikov položaj pred premikom
         prejx, prejy = self.igralec
@@ -70,6 +83,11 @@ class Sokoban:
 
     def preberi_level(self, ime_dat):
         """ Iz datoteke `ime_dat` preberemo zemljevid levla in ga shranimo """
+
+        # Pobrišimo star level pred branjem novega
+        self.zid = []
+        self.kocke = []
+        self.cilj = []
 
         # Odprimo datoteko
         lvl = open(ime_dat, "r")
@@ -114,7 +132,7 @@ class Sokoban:
 
 # Naredimo novo igro
 igra = Sokoban()
-igra.preberi_level("lvl2.txt")
+igra.preberi_level("lvl1.txt")
 igra.narisi_level()
 
 # Zaženemo igro
